@@ -10,8 +10,12 @@ export default function Dashboard() {
   const total = todos.length;
   const completed = todos.filter((todo) => todo.completed).length;
   const overdue = todos.filter(
-    (todo) => todo.dueDate && isPast(parseISO(todo.dueDate)),
+    (todo) => !todo.completed && todo.dueDate && isPast(parseISO(todo.dueDate)),
   ).length;
+
+  const pending = total - completed;
+
+  const completionRate = total > 0 ? Math.round((completed / total) * 100) : 0;
 
   const todayTasks = todos.filter(
     (todo) => todo.dueDate && isToday(parseISO(todo.dueDate)),
